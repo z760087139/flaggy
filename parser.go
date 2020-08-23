@@ -3,6 +3,7 @@ package flaggy
 import (
 	"errors"
 	"fmt"
+	"io"
 	"os"
 	"strconv"
 	"strings"
@@ -24,6 +25,7 @@ type Parser struct {
 	trailingArgumentsExtracted bool               // indicates that trailing args have been parsed and should not be appended again
 	parsed                     bool               // indicates this parser has parsed
 	subcommandContext          *Subcommand        // points to the most specific subcommand being used
+	helpOutput                 io.Writer          // help message output interface , default os.Stderr
 }
 
 // NewParser creates a new ArgumentParser ready to parse inputs
@@ -37,6 +39,7 @@ func NewParser(name string) *Parser {
 	p.ShowVersionWithVersionFlag = true
 	p.SetHelpTemplate(DefaultHelpTemplate)
 	p.subcommandContext = &Subcommand{}
+	p.helpOutput = os.Stderr
 	return p
 }
 
@@ -196,9 +199,9 @@ func (p *Parser) ShowHelpWithMessage(message string) {
 	// create a new Help values template and extract values into it
 	help := Help{}
 	help.ExtractValues(p, message)
-	err := p.HelpTemplate.Execute(os.Stderr, help)
+	err := p.HelpTemplate.Execute(p.helpOutput, help)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "Error rendering Help template:", err)
+		fmt.Fprintln(p.helpOutput, "Error rendering Help template:", err)
 	}
 }
 
@@ -206,4 +209,9 @@ func (p *Parser) ShowHelpWithMessage(message string) {
 // with --version. It is enabled by default.
 func (p *Parser) DisableShowVersionWithVersion() {
 	p.ShowVersionWithVersionFlag = false
+}
+
+// SetHelpOutput set the output interface
+func (p *Parser) SetHelpOutput(wr io.Writer) {
+	p.helpOutput = wr
 }
