@@ -70,7 +70,8 @@ func (p *Parser) ParseArgs(args []string) error {
 			for _, a := range argsNotParsed {
 				argsNotParsedFlat = argsNotParsedFlat + " " + a
 			}
-			p.ShowHelpAndExit("Unknown arguments supplied: " + argsNotParsedFlat)
+			// p.ShowHelpAndExit("Unknown arguments supplied: " + argsNotParsedFlat)
+			p.ShowHelp()
 		}
 	}
 

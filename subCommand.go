@@ -340,7 +340,8 @@ func (sc *Subcommand) parse(p *Parser, args []string, depth int) error {
 	// if help was requested and we should show help when h is passed,
 	if helpRequested && p.ShowHelpWithHFlag {
 		p.ShowHelp()
-		exitOrPanic(0)
+		// exitOrPanic(2)
+		return nil
 	}
 
 	// find any positionals that were not used on subcommands that were
