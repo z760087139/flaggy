@@ -6,16 +6,16 @@ package flaggy
 const defaultHelpTemplate = `{{.CommandName}}{{if .Description}} - {{.Description}}{{end}}{{if .PrependMessage}}
 {{.PrependMessage}}{{end}}
 {{if .UsageString}}
-  Usage:
+  使用方式:
     {{.UsageString}}{{end}}{{if .Positionals}}
 
-  Positional Variables: {{range .Positionals}}
+  位置参数: {{range .Positionals}}
     {{.Name}}  {{.Spacer}}{{if .Description}} {{.Description}}{{end}}{{if .DefaultValue}} (default: {{.DefaultValue}}){{else}}{{if .Required}} (Required){{end}}{{end}}{{end}}{{end}}{{if .Subcommands}}
 
   Subcommands: {{range .Subcommands}}
     {{.LongName}}{{if .ShortName}} ({{.ShortName}}){{end}}{{if .Position}}{{if gt .Position 1}}  (position {{.Position}}){{end}}{{end}}{{if .Description}}   {{.Spacer}}{{.Description}}{{end}}{{end}}
 {{end}}{{if (gt (len .Flags) 0)}}
-  Flags: {{if .Flags}}{{range .Flags}}
+  命名参数: {{if .Flags}}{{range .Flags}}
     {{if .ShortName}}-{{.ShortName}} {{else}}   {{end}}{{if .LongName}}--{{.LongName}}{{end}}{{if .Description}}   {{.Spacer}}{{.Description}}{{if .DefaultValue}} (default: {{.DefaultValue}}){{end}}{{end}}{{end}}{{end}}
 {{end}}{{if .AppendMessage}}{{.AppendMessage}}
 {{end}}{{if .Message}}
